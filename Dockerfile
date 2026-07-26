@@ -12,8 +12,10 @@ WORKDIR /usr/src/myapp
 
 RUN apk add --no-cache \
     lsb-release-minimal \
+    luarocks5.1 \
     pcre \
     luajit
+COPY --from=builder /usr/local/lib/luarocks /usr/local/lib/luarocks
 COPY --from=builder /usr/local/lib/lua /usr/local/lib/lua
 COPY --from=builder /usr/local/share/lua /usr/local/share/lua
 COPY json.lua bowtie_jsonschema.lua ./
