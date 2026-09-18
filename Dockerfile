@@ -1,4 +1,4 @@
-FROM alpine:3.24.1 AS builder
+FROM alpine:3.24.2 AS builder
 
 RUN apk add --no-cache \
     build-base \
@@ -7,7 +7,7 @@ RUN apk add --no-cache \
     pcre-dev \
  && luarocks-5.1 install jsonschema
 
-FROM alpine:3.24.1
+FROM alpine:3.24.2
 WORKDIR /usr/src/myapp
 
 RUN apk add --no-cache \
