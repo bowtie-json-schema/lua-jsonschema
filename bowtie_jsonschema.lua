@@ -75,7 +75,12 @@ local cmds = {
     end
     local results = {}
     for _, test in ipairs(request.case.tests) do
-      table.insert(results, { valid = result(test.instance) })
+      local test_ok, valid = xpcall(result, debug.traceback, test.instance)
+      if test_ok then
+        table.insert(results, { valid = valid })
+      else
+        table.insert(results, { errored = true, context = { traceback = valid } })
+      end
     end
     return { seq = request.seq, results = results }
   end,
