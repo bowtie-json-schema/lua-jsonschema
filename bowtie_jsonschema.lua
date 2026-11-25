@@ -63,6 +63,17 @@ local cmds = {
   run = function(request)
     assert(STARTED, 'Not started!')
 
+    if request.output and request.output ~= 'flag' then
+      local results = {}
+      for _ in ipairs(request.case.tests) do
+        table.insert(results, {
+          skipped = true,
+          message = 'unsupported output format ' .. request.output,
+        })
+      end
+      return { seq = request.seq, results = results }
+    end
+
     local registry = request.case.registry
     local opts = { external_resolver = resolve_in_registry(registry) }
     local ok, result = xpcall(jsonschema.generate_validator, debug.traceback, request.case.schema, opts)
